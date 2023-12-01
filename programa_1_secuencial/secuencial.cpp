@@ -1,30 +1,30 @@
 #include <opencv2/opencv.hpp>
+#include <iostream>
 using namespace cv;
+using namespace std;
 
 int main(){
-//cargar imagen
-mat image = imread("foto_prueba.jpg", IMREAD_COLOR);
-//Verfifica si la imagen se cargo correctamente
-if (image.empty()) {
-        std::cerr << "Error al cargar la imagen." << std::endl;
-        return -1;
-}
-//Crea una imagen en escala de grises
-mat grayImage(image.rows, image.columns, CV_8UC1);
-// Convierte la imagen a escala de grises de manera secuencial
-    for (int i = 0; i < image.rows; ++i) {
-        for (int j = 0; j < image.cols; ++j) {
-            // Obtiene el valor de intensidad promedio de los canales RGB
-            Vec3b pixel = image.at<Vec3b>(i, j);
-            uchar gris = static_cast<uchar>((pixel[0] + pixel[1] + pixel[2]) / 3);
-
-            // Establece el nuevo valor en la imagen en escala de grises
-            grayImage.at<uchar>(i, j) = gris;
-        }
+    //cargar imagen
+    mat colorImage = imread("foto_prueba.jpg", IMREAD_COLOR);
+    //Verfifica si la imagen se cargo correctamente
+    if (colorImage.empty()) {
+            std::cerr << "Error al cargar la imagen." << std::endl;
+            return -1;
     }
+    //Crea una imagen en escala de grises
+    mat grayImage(colorImage.rows, colorImage.columns, CV_8UC1);
+    // Convierte la imagen a escala de grises de manera secuencial
+        for (int i = 0; i < colorImage.rows; ++i) {
+            for (int j = 0; j < colorImage.cols; ++j) {
+                Vec3b pixel = colorImage.at<Vec3b>(i, j);
+                // Calcular el valor de luminosidad utilizando la fórmula L = 0.299*R + 0.587*G + 0.114*B
+                uchar grayValue = 0.299 * pixel[2] + 0.587 * pixel[1] + 0.114 * pixel[0];
+                grayImage.at<uchar>(i, j) = grayValue;
+            }
+        }
 
     // Muestra la imagen original y la imagen en escala de grises
-    imshow("Imagen Original", image);
+    imshow("Imagen Original", colorImage);
     imshow("Imagen en Escala de Grises", grayImage);
 
     // Espera a que el usuario presione una tecla
