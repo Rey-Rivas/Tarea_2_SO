@@ -1,16 +1,18 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <chrono>
 using namespace cv;
 using namespace std;
+using namespace std::chrono;
 
 int main(int argc, char** argv){
-    // Check if image name is provided
+    // Chequea si se ingreso el nombre de la imagen
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <Image_Path>\n";
         return -1;
     }
 
-    // Load the image
+    // cargar la imagen
     Mat colorImage = imread(argv[1], IMREAD_COLOR);
     //Verfifica si la imagen se cargo correctamente
     if (colorImage.empty()) {
@@ -20,6 +22,9 @@ int main(int argc, char** argv){
 
     //Crea una imagen en escala de grises
     Mat grayImage(colorImage.rows, colorImage.cols, CV_8UC1);
+    // Empieza el cronometro
+    auto start = high_resolution_clock::now();
+
     // Convierte la imagen a escala de grises de manera secuencial
         for (int i = 0; i < colorImage.rows; ++i) {
             for (int j = 0; j < colorImage.cols; ++j) {
@@ -29,6 +34,13 @@ int main(int argc, char** argv){
                 grayImage.at<uchar>(i, j) = grayValue;
             }
         }
+    // Para el cronometro
+    auto stop = high_resolution_clock::now();
+
+    // Calcula la duracion
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    cout << "Tiempo tomado por el programa: " << duration.count() << " microsegundos" << endl;
 
     // Muestra la imagen original y la imagen en escala de grises
     imshow("Imagen Original", colorImage);
