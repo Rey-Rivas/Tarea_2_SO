@@ -3,16 +3,23 @@
 using namespace cv;
 using namespace std;
 
-int main(){
-    //cargar imagen
-    mat colorImage = imread("foto_prueba.jpg", IMREAD_COLOR);
+int main(int argc, char** argv){
+    // Check if image name is provided
+    if (argc < 2) {
+        std::cerr << "Usage: " << argv[0] << " <Image_Path>\n";
+        return -1;
+    }
+
+    // Load the image
+    Mat colorImage = imread(argv[1], IMREAD_COLOR);
     //Verfifica si la imagen se cargo correctamente
     if (colorImage.empty()) {
             std::cerr << "Error al cargar la imagen." << std::endl;
             return -1;
     }
+
     //Crea una imagen en escala de grises
-    mat grayImage(colorImage.rows, colorImage.columns, CV_8UC1);
+    Mat grayImage(colorImage.rows, colorImage.cols, CV_8UC1);
     // Convierte la imagen a escala de grises de manera secuencial
         for (int i = 0; i < colorImage.rows; ++i) {
             for (int j = 0; j < colorImage.cols; ++j) {
