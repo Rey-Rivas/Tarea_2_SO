@@ -23,8 +23,8 @@ void convertirAGrisesThread(Mat &image, Mat &grayImage, int startRow, int endRow
 
 int main(int argc, char** argv) {
     // Revisa si se entregaron el nombre de la imagen y el numero de threads
-    if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <Image_Path> <Number_of_Threads>\n";
+    if (argc < 4) {
+        std::cerr << "Usage: " << argv[0] << " <Image_Path> <Gray_ImageOutput> <Number_of_Threads>\n";
         return -1;
     }
 
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     Mat grayImage(rows, cols, CV_8UC1);
 
     // Definir el número de threads que se utilizarán
-    int numThreads = atoi(argv[2]); // Puedes ajustar esto según la cantidad de núcleos de tu CPU
+    int numThreads = atoi(argv[3]); // Puedes ajustar esto según la cantidad de núcleos de tu CPU
 
     // Crear un vector para almacenar los threads
     vector<thread> threads;
@@ -75,7 +75,11 @@ int main(int argc, char** argv) {
     // Mostrar la imagen original y la imagen en escala de grises
     imshow("Imagen Original", imageColor);
     imshow("Imagen en Escala de Grises", grayImage);
-    waitKey(0);
+    if (!imwrite(argv[2], grayImage)) {
+        std::cerr << "Fallo convertir la imagen a escala de grises " << argv[2] << std::endl;
+        return -1;
+    }
+    waitKey(0); 
 
     return 0;
 }

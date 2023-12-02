@@ -25,8 +25,8 @@ void convertirAGrisesParalelo(Mat &image, Mat &grayImage) {
 int main(int argc, char** argv) {
 
     // Check if image name and number of threads are provided
-    if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <Image_Path> <Number_of_Threads>\n";
+    if (argc < 4) {
+        std::cerr << "Usage: " << argv[0] << " <Image_Path> <Gray_ImageOutput> <Number_of_Threads>\n";
         return -1;
     }
 
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    int numThreads = atoi(argv[2]);
+    int numThreads = atoi(argv[3]);
     omp_set_num_threads(numThreads);
 
     // Obtener las dimensiones de la imagen
@@ -62,6 +62,11 @@ int main(int argc, char** argv) {
     // Mostrar la imagen original y la imagen en escala de grises
     imshow("Imagen Original", colorImage);
     imshow("Imagen en Escala de Grises", grayImage);
+    // Guardar la imagen en escala de grises
+    if (!imwrite(argv[2], grayImage)) {
+        std::cerr << "Fallo convertir la imagen a escala de grises " << argv[2] << std::endl;
+        return -1;
+    }
     waitKey(0);
 
     return 0;

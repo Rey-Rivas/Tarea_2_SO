@@ -7,8 +7,8 @@ using namespace std::chrono;
 
 int main(int argc, char** argv){
     // Chequea si se ingreso el nombre de la imagen
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <Image_Path>\n";
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <Image_Path> <Gray_ImageOutput>\n";
         return -1;
     }
 
@@ -45,7 +45,11 @@ int main(int argc, char** argv){
     // Muestra la imagen original y la imagen en escala de grises
     imshow("Imagen Original", colorImage);
     imshow("Imagen en Escala de Grises", grayImage);
-
+    // Guardar la imagen en escala de grises
+    if (!imwrite(argv[2], grayImage)) {
+        std::cerr << "Fallo convertir la imagen a escala de grises " << argv[2] << std::endl;
+        return -1;
+    }
     // Espera a que el usuario presione una tecla
     waitKey(0);
 
