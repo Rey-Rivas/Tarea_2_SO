@@ -26,20 +26,16 @@ parte a una hebra para que aplique las modificaciones de manera independiente.
 Para empezar, debemos instalar las dependencias.
 Para ello tenemos que correr los siguientes comandos en la terminal del sistema:
 
-
-```sudo apt-get update
-sudo apt-get install g++
-sudo apt-get install libopencv-dev```
-
+```sudo apt-get update```
+```sudo apt-get install g++```
+```sudo apt-get install libopencv-dev```
 
 El primero sirve par actualizar la lista de paquetes disponibles que tiene el sistema, el segundo para instalar el compilador GNU G+0+, y el tercero para instalar OpenCV.
 
 ## COMPILACIÓN Y USO DEL PROGRAMA
 Para compilar cualquiera de los 3 programas incluidos, hay que abrir una consola dentro de cualquiera de las 3 carpetas y ejecutar el comando:
 
-
 ```make```
-
 
 Una vez compilado, podemos ejecutar el programa desde esa misma terminal. El formato de ejecución varía de un programa a otro:
 
